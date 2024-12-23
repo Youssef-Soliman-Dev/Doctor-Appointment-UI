@@ -2,22 +2,32 @@ import 'package:doctor_application/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppointmentScreen extends StatelessWidget {
+class AppointmentScreen extends StatefulWidget {
   AppointmentScreen({super.key, required this.p});
-  int p;
-  List Doctors = [
+  final int p;
+
+  @override
+  _AppointmentScreenState createState() => _AppointmentScreenState();
+}
+
+class _AppointmentScreenState extends State<AppointmentScreen> {
+  List<String> Doctors = [
     "Dr. Emily Harper",
     "Dr. Sophia Mart",
     "Dr. James White",
     "Dr. Michael Jack"
   ];
 
-  List imgs = [
+  List<String> imgs = [
     "assets/doctor1.jpg",
     "assets/doctor2.jpg",
     "assets/doctor3.jpg",
     "assets/doctor4.jpg",
   ];
+
+  int selectedDate = 0; // Default selection for date
+  int selectedTime = 0; // Default selection for time
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,14 +67,14 @@ class AppointmentScreen extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      imgs[p],
+                      imgs[widget.p],
                       height: 180,
                       width: 180,
                     ),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    Doctors[p],
+                    Doctors[widget.p],
                     style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.w500,
@@ -172,15 +182,20 @@ class AppointmentScreen extends StatelessWidget {
                         itemCount: 6,
                         itemBuilder: (context, i) {
                           return InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              setState(() {
+                                selectedDate = i;
+                              });
+                            },
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 5),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 25, vertical: 8),
                               decoration: BoxDecoration(
-                                  color:
-                                      i == 1 ? Colors.redAccent : Colors.white,
+                                  color: selectedDate == i
+                                      ? Colors.redAccent
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
@@ -196,7 +211,7 @@ class AppointmentScreen extends StatelessWidget {
                                     "${i + 8}",
                                     style: TextStyle(
                                         fontSize: 15,
-                                        color: i == 1
+                                        color: selectedDate == i
                                             ? Colors.white
                                             : Colors.black.withOpacity(0.6)),
                                   ),
@@ -204,7 +219,7 @@ class AppointmentScreen extends StatelessWidget {
                                     "Dec",
                                     style: TextStyle(
                                         fontSize: 15,
-                                        color: i == 1
+                                        color: selectedDate == i
                                             ? Colors.white
                                             : Colors.black.withOpacity(0.6)),
                                   )
@@ -231,15 +246,20 @@ class AppointmentScreen extends StatelessWidget {
                         itemCount: 6,
                         itemBuilder: (context, i) {
                           return InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              setState(() {
+                                selectedTime = i;
+                              });
+                            },
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 5),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                  color:
-                                      i == 2 ? Colors.redAccent : Colors.white,
+                                  color: selectedTime == i
+                                      ? Colors.redAccent
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
@@ -249,10 +269,10 @@ class AppointmentScreen extends StatelessWidget {
                                   ]),
                               child: Center(
                                 child: Text(
-                                  "${i + 5}: 00 PM",
+                                  "${i + 5}:00 PM",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: i == 2
+                                      color: selectedTime == i
                                           ? Colors.white
                                           : Colors.black.withOpacity(0.6)),
                                 ),
